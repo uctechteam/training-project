@@ -15,8 +15,6 @@ The table has the following schema:
 
 PK | student | course    | start_time | end_time 
 
-1    Abida     Databases   0930         1050
-
 Each row in the table needs to be uniquely identified through the use of a *primary key*, but because there can be duplicate students and courses, we'll use an automate-incremented integer PK that essentially keeps track of the row #. Alternatively, we can use (student, coruse) as a unique PK. 
 
 # sqlite3 for Python 
