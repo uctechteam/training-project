@@ -1,7 +1,7 @@
 # training-project
 This repository serves as a guide for training project participants in Aut 23
 
-# Mission objective 
+# Objective 
 The objective of this lesson is to create a Python API that allows a student to add, delete, and get courses. To do this we will use Flask, a Python-based web application framework, and sqlite3, a Python module that acts as a SQL interface. 
 
 # Prerequisites
@@ -14,6 +14,7 @@ To create the table and conduct various operations on the table (adding, deletin
 The table has the following schema: 
 
 PK | student | course    | start_time | end_time 
+
 1    Abida     Databases   0930         1050
 
 Each row in the table needs to be uniquely identified through the use of a *primary key*, but because there can be duplicate students and courses, we'll use an automate-incremented integer PK that essentially keeps track of the row #. Alternatively, we can use (student, coruse) as a unique PK. 
