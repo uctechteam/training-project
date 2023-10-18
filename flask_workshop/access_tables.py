@@ -1,17 +1,17 @@
-import sqlite3 
+import sqlite3
 
 class StudentCourses:
     def __init__(self):
         # Connect to the database studentcourses, and create it if it doesn't exist
         self.con = sqlite3.connect("studentcourses.db")
         self.cur = self.con.cursor()
-        # Initialize the table student_courses if DNE 
+        # Initialize the table student_courses if DNE
         self.cur.execute('''CREATE TABLE IF NOT EXISTS
             student_courses (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                student TEXT NOT NULL, 
+                student TEXT NOT NULL,
                 course TEXT NOT NULL,
-                start_time REAL NOT NULL, 
+                start_time REAL NOT NULL,
                 end_time REAL NOT NULL
                 )
                 ''')
@@ -25,30 +25,30 @@ class StudentCourses:
     def print_table(self):
         self.cur.execute("SELECT * FROM student_courses")
         return self.cur.fetchall()
-    
+
     def get_student_courses(self, student):
         '''Retrieve a list of courses associated with a student in the format
         {[course1, start_time, end_time], [course2, start_time, end_time]}'''
         select_statement = "SELECT * FROM student_courses WHERE student = '{student}' ".format(student=student)
         self.cur.execute(select_statement)
         return self.cur.fetchall()
-    
+
     def delete_student(self, student):
         '''Delete all entries in the table for the given student'''
         delete_statement = "DELETE FROM student_courses WHERE student = '{student}' ".format(student=student)
         self.cur.execute(delete_statement)
         self.con.commit()
-    
+
     def delete_student_course(self, student, course):
-        '''Delete all entries in the table for the given student'''
+        '''Delete given course in the table for the given student'''
         delete_statement = '''
             DELETE FROM student_courses WHERE student = '{student}' AND course = '{course}'
             '''.format(student=student, course=course)
         self.cur.execute(delete_statement)
         self.con.commit()
-    
+
     def add_student_course(self, student, course):
-        ''' Add a new course for the student if there are no overlaps, 
+        ''' Add a new course for the student if there are no overlaps,
         else throw an error; also note that the operation is atomic,
         meaning either all or no courses are added '''
         # Validate that start and end times are valid
@@ -56,19 +56,19 @@ class StudentCourses:
         if curr_end <= curr_start:
             raise Exception("Class ends before it begins!")
 
-        # Get all the courses and sort by start time, check that none of the courses are invalid 
+        # Get all the courses and sort by start time, check that none of the courses are invalid
         old_courses = self.get_student_courses(student)
         old_courses.sort(key=lambda entry: entry[3]) # start time
 
         # Check for any overlapping times
         for i, old_course in enumerate(old_courses):
             _, _, _, start, end = old_course
-            if (curr_start < end and curr_start >= start) or (curr_start <= start and curr_end > end): 
+            if (curr_start < end and curr_start >= start) or (curr_start <= start and curr_end > end):
                 raise Exception("Error: Overlapping courses!")
-            
+
         # Insert the courses otherwise
         params = (student, course[0], course[1], course[2])
-        select_statement = '''INSERT INTO 
+        select_statement = '''INSERT INTO
             student_courses
             VALUES (NULL,?,?,?,?) '''
         self.cur.execute(select_statement, params)
