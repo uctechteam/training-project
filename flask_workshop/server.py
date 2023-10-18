@@ -11,7 +11,7 @@ def home():
 def get_courses(student):
     student_courses_obj = StudentCourses()
     courses = student_courses_obj.get_student_courses(student)
-    courses_json = {"courses": courses}
+    courses_json = {"student": student, "courses": courses}
     return jsonify(courses_json), 200
 
 @app.route("/add-course", methods=["POST"])
