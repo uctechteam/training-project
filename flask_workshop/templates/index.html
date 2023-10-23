@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://www.w3schools.com/lib/w3schools32.css?v=1.0.1">
+        <title>Course Database</title>
+    </head>
+    <body>
+        <h1>Add a course to a student:</h1>
+        <form action="/add-course" method="post">
+            <label for="student">Name:</label>
+            <input type="text" id="student" name="student"><br><br>
+            <label for="course">Course:</label>
+            <input type="text" id="course" name="course"><br><br>
+            <label for="start_time">Start Time:</label>
+            <input type="text" id="start_time" name="start_time"><br><br>
+            <label for="end_time">End Time:</label>
+            <input type="text" id="end_time" name="end_time"><br><br>
+            <input type="submit"v value="Add a course">
+        </form>
+       <div>
+            <p id="student_name"></p>
+        </div>
+    </body>
+</html>
+

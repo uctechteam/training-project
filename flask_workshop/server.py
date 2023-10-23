@@ -1,11 +1,11 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from access_tables import StudentCourses
 
 app = Flask(__name__)
 
 @app.route("/")
 def home_page():
-    return "Home Page"
+    return render_template("index.html")
 
 @app.route("/get-courses/<student>")
 def get_courses(student):
@@ -19,10 +19,14 @@ def get_courses(student):
 @app.route("/add-course", methods=["POST"])
 def add_course():
     student_courses_obj = StudentCourses()
-    data = request.get_json()
+    data = request.form
     # data = {"student": student, "course": [a single course]}
+    print(data)
+    course_name = data["course"]
     student = data["student"]
-    course = data["course"]
+    start = data["start_time"]
+    end = data["end_time"]
+    course = [course_name, start, end]
     student_courses_obj.add_student_course(student, course)
     return jsonify(data), 201
     
